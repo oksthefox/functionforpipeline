@@ -5,7 +5,7 @@ def dockerLogin()
         // Use the "withCredentials" block to securely access Docker credentials
         withCredentials([usernamePassword(credentialsId: 'DockerLogin', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
         {
-        // Replace 'your-docker-registry' with your Docker registry URL (e.g., Docker Hub)
+            // Replace 'your-docker-registry' with your Docker registry URL (e.g., Docker Hub)
             sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
         }
     }
@@ -19,7 +19,8 @@ def dockerLogin()
 
 def CleanupDocker(String folder1, String folder2)
 {
-    try{
+    try
+    {
         echo 'Performing cleanup of docker images'
         sh "docker images | grep -w ${folder1} | grep -w [0-9]*\\.[0-9]* | awk '{print \$2}' | xargs -I {} docker rmi ${folder1}:{}"
         sh "docker images | grep -w ${folder2} | grep -w [0-9]\\.[0-9]* | awk '{print \$2}' | xargs -I {} docker rmi ${folder2}:{}"

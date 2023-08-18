@@ -21,7 +21,7 @@ def changeCheck (String jenkinsfile)
                     modifiedFiles += item.getAffectedPaths()
                 }
             }
-            modifiedFiles = modifiedFiles.minus("$jenkinsfile")
+            modifiedFiles = modifiedFiles.minus("${jenkinsfile}")
             if (modifiedFiles.isEmpty()) 
             {
                 println('Skipping pipeline execution as the only change is to the Jenkinsfile.')

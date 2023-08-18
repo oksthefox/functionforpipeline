@@ -1,16 +1,17 @@
 // this function will run terraform apply command and change the context of kubectl
 def terraformApply(String folder, String clusterName, String zone, String project)
 {
-    try{
-            // Check for changes in the mynewchart directory
-            dir(${folder}) 
-            {
-                // Initialize Terraform
-                sh 'terraform init'
-                sh 'terraform apply -auto-approve'
-                echo 'Updating kubectl context...'
-                sh "gcloud container clusters get-credentials ${clusterName} --zone ${zone} --project ${project}"
-            }
+    try
+    {
+        // Check for changes in the mynewchart directory
+        dir("${folder}") 
+        {
+            // Initialize Terraform
+            sh 'terraform init'
+            sh 'terraform apply -auto-approve'
+            echo 'Updating kubectl context...'
+            sh "gcloud container clusters get-credentials ${clusterName} --zone ${zone} --project ${project}"
+        }
     }
     catch (Exception e)
     {

@@ -57,9 +57,10 @@ def packageHelmChart(String folder, String bucket, String bucketFolder)
 }
 def closingHelm(String release)
 {
-    try{
-    echo "closing test enviroment..."
-    sh "helm uinstall ${release}"
+    try
+    {
+        echo "closing test enviroment..."
+        sh "helm uinstall ${release}"
     }
     catch (Exception e)
     {
