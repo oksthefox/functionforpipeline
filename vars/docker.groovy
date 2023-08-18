@@ -16,6 +16,7 @@ def dockerLogin()
         error "Failed To Login To Docker"
     }
 }
+
 def CleanupDocker(String folder1, String folder2)
 {
     try{
