@@ -3,37 +3,38 @@
 
 def changeCheck (String jenkinsfile)
 {
-    try{
-            def changeSets = currentBuild.changeSets
-            if(changeSets.size()==0)
+    try
+    {
+        def changeSets = currentBuild.changeSets
+        if(changeSets.size()==0)
+        {
+            echo "no changes, ran manually proceeding"
+            env.RELEVANT_CHANGES = "true"
+        }
+        else
+        {
+            def modifiedFiles = []
+            for(changeSet in changeSets) 
             {
-                echo "no changes, ran manually proceeding"
-                env.RELEVANT_CHANGES = "true"
+                for(item in changeSet) 
+                {
+                    modifiedFiles += item.getAffectedPaths()
+                }
+            }
+            modifiedFiles = modifiedFiles.minus("$jenkinsfile")
+            if (modifiedFiles.isEmpty()) 
+            {
+                println('Skipping pipeline execution as the only change is to the Jenkinsfile.')
+                env.RELEVANT_CHANGES = "false"
             }
             else
             {
-                def modifiedFiles = []
-                for(changeSet in changeSets) 
-                {
-                    for(item in changeSet) 
-                    {
-                        modifiedFiles += item.getAffectedPaths()
-                    }
-                }
-                modifiedFiles = modifiedFiles.minus("$jenkinsfile")
-                if (modifiedFiles.isEmpty()) 
-                {
-                    println('Skipping pipeline execution as the only change is to the Jenkinsfile.')
-                    env.RELEVANT_CHANGES = "false"
-                }
-                else
-                {
-                    env.RELEVANT_CHANGES = "true"
-                }
+                env.RELEVANT_CHANGES = "true"
             }
+        }
     }
-
 }
+
 def CleanupWorkspace()
 {
     try
