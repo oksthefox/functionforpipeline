@@ -229,3 +229,5 @@ def closingProxy(String ip)
     ssh -o StrictHostKeyChecking=no user@${ip} "taskkill /F /IM kubectl.exe"
     """
 }
+
+return this

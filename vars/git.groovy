@@ -12,3 +12,6 @@ def GitClone(String giturl)
         error "Failed To Clone Repository: ${giturl}"
     }
 }
+
+
+return this

@@ -18,3 +18,6 @@ def terraformApply(String folder, String clusterName, String zone, String projec
         error "Failed To Change Context: ${context}"
     }
 }
+
+
+return this

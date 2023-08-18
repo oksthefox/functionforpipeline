@@ -68,3 +68,6 @@ def closingHelm(String release)
         error "Failed To Close Helm"
     }
 }
+
+
+return this

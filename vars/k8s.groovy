@@ -112,3 +112,6 @@ def closingProxy(String ip)
         error "Failed To Change Context: ${context}"
     }
 }
+
+
+return this

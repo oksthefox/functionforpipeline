@@ -48,3 +48,6 @@ def CleanupWorkspace()
         error "Failed To Cleanup Workspace"
     }   
 }
+
+
+return this

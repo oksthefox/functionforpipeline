@@ -58,3 +58,7 @@ def BuildDocker(String folder ,String image)
         error "Failed To Build Docker Image: ${image}"
     }
 }
+
+
+
+return this
