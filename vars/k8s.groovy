@@ -1,3 +1,5 @@
+// this function is used to run proxy with ip address of windows machine
+
 def IpForProxy(String ip)
 {
     try
@@ -14,6 +16,7 @@ def IpForProxy(String ip)
         error "Failed To Change Context: ${context}"
     }
 }
+// this function is used to change the context of kubectl
 def changeContext(String context)
 {
     try
@@ -28,7 +31,7 @@ def changeContext(String context)
         error "Failed To Change Context: ${context}"
     }
 }
-
+// this function is used to deploy the application to kubernetes it takes 4 parameters and search for the latest chart version and deploy it if it is not found it will fail the build
 def deployToK8s(String packagename,String approotfolder,String environment,String deploymentName) 
 {
     try
@@ -48,6 +51,7 @@ def deployToK8s(String packagename,String approotfolder,String environment,Strin
         error "Failed To Change Context: ${context}"
     }
 }
+// this function is used to pull the tcp port of the service
 def  pullTcp(String servicename)
 {
     try
@@ -63,6 +67,7 @@ def  pullTcp(String servicename)
         error "Failed To Change Context: ${context}"
     }
 }
+// this function is used to rollout the deployment
 def rolloutK8S(String deploymentName1, String deploymentName2)
 {
     try
@@ -79,6 +84,7 @@ def rolloutK8S(String deploymentName1, String deploymentName2)
         error "Failed To Change Context: ${context}"
     }
 }
+// this function is used to test the application
 def testingTestEnv(String ip, String kubectltcpport)
 {
     try 
@@ -96,6 +102,7 @@ def testingTestEnv(String ip, String kubectltcpport)
         error "Test Failed"
     }
 }
+// this function is used to close the proxy
 def closingProxy(String ip)
 {
     try

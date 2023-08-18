@@ -60,5 +60,25 @@ def BuildDocker(String folder ,String image)
 }
 
 
+def dockerLogin()
+{
+    try
+    {
+        // Use the "withCredentials" block to securely access Docker credentials
+        withCredentials([usernamePassword(credentialsId: 'DockerLogin', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) 
+        {
+        // Replace 'your-docker-registry' with your Docker registry URL (e.g., Docker Hub)
+            sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+        }
+    }
+    catch (Exception e)
+    {
+        echo "[ERROR]: ${e.getMessage()}"
+        currentBuild.result = 'FAILURE'
+        error "Failed To Login To Docker"
+    }
+}
+
+
 
 return this

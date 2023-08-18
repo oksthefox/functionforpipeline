@@ -1,3 +1,4 @@
+// this function will run terraform apply command and change the context of kubectl
 def terraformApply(String folder, String clusterName, String zone, String project)
 {
     try{
