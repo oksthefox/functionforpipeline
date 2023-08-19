@@ -33,6 +33,12 @@ def changeCheck (String jenkinsfile)
             }
         }
     }
+    catch (Exception e)
+    {
+        echo "[ERROR]: ${e.getMessage()}"
+        currentBuild.result = 'FAILURE'
+        error "Failed To Check For Changes"
+    }
 }
 
 def CleanupWorkspace()
