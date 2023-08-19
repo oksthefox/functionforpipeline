@@ -1,6 +1,3 @@
-
-//this function is used to check if there are any changes in the repo other than the Jenkinsfile
-
 def changeCheck (String jenkinsfile)
 {
     try

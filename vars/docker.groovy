@@ -32,6 +32,7 @@ def CleanupDocker(String folder1, String folder2)
         error "Failed To Cleanup Docker"
     }
 }
+
 def BuildDocker(String folder ,String image)
 {
     try
