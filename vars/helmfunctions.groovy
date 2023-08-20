@@ -60,7 +60,7 @@ def closingHelm(String release)
     try
     {
         echo "closing test enviroment..."
-        sh "helm uinstall ${release}"
+        sh "helm uninstall ${release}"
     }
     catch (Exception e)
     {
