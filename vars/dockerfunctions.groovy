@@ -39,7 +39,7 @@ def BuildDocker(String folder ,String image)
     {
         def changedFiles = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
 
-        def hasRelevantChanges = changedFiles.any( it.startsWith("${folder}") )
+        def hasRelevantChanges = changedFiles.any { it.startsWith("${folder}") }
 
         if (!hasRelevantChanges)
         {
