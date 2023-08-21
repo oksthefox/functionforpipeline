@@ -37,16 +37,6 @@ def BuildDocker(String folder ,String image)
 {
     try
     {
-        def changedFiles = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
-
-        def hasRelevantChanges = changedFiles.any { it.startsWith("${folder}") }
-
-        if (!hasRelevantChanges)
-        {
-            echo "No changes in ${folder}, skipping build"
-            return
-        }
-
         dir("${folder}")
         {
             echo "Building ${image}"
