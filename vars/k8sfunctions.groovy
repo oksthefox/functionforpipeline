@@ -13,7 +13,7 @@ def IpForProxy(String ip)
     {
         echo "[ERROR]: ${e.getMessage()}"
         currentBuild.result = 'FAILURE'
-        error "Failed To Change Context: ${context}"
+        error "Failed To Change Reaching The Proxy: ${ip}"
     }
 }
 

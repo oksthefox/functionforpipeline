@@ -3,33 +3,41 @@ def packageHelmChart(String folder, String bucket, String bucketFolder)
 {
     try
     {
-        // Check for changes in the mynewchart directory
-        def chartChanges = sh(script: "git diff --name-only HEAD~1 HEAD | grep mychart || true", returnStdout: true).trim()
+        // Fetch changes using changeSets
+        def modifiedFiles = []
+        
+        for(changeSet in currentBuild.changeSets) {
+            for(item in changeSet) {
+                echo "Changes in ${item.getAffectedPaths()}"
+                modifiedFiles += item.getAffectedPaths()
+            }
+        }
+
+        // Check for changes in the given location
+        def hasRelevantChanges = modifiedFiles.any { it.startsWith("mynewchart") }
 
         // Fetch latest chart from GCS
         def latestChart = sh(script: "gsutil ls gs://${bucket}/${bucketFolder}/myproject*.tgz | sort -V | tail -n 1", returnStdout: true).trim()
-
         sh "gsutil cp ${latestChart} ${folder}/"
 
-        if (chartChanges) 
-        {
+        if (hasRelevantChanges) {
             // Unpack the chart
             sh "mkdir -p ${folder}/unpackedChart"
             sh "tar -xzvf ${folder}/myproject*.tgz -C ${folder}/unpackedChart"
 
             // Copy changes from static mynewchart to the unpacked version, excluding Chart.yaml
-            sh "rsync -av --exclude='Chart.yaml' ${folder}/mychart/ ${folder}/unpackedChart/myproject/"
+            sh "rsync -av --exclude='Chart.yaml' ${folder}/mynewchart/ ${folder}/unpackedChart/myproject/"
 
             // Determine the type of change
             def changeType = 'patch'  // default to patch
 
-            if (chartChanges.contains("Chart.yaml")) {
+            if (modifiedFiles.any { it.contains("mynewchart/Chart.yaml") }) {
                 changeType = 'major'
-            } else if (chartChanges.contains("templates/")) {
+            } else if (modifiedFiles.any { it.contains("mynewchart/templates/") }) {
                 changeType = 'minor'
             }
 
-            // Bump the version
+            // Bump version in the unpacked chart's Chart.yaml
             sh "bash ${folder}/scripts/versionBump.sh ${changeType} ${folder}/unpackedChart/myproject/Chart.yaml"
 
             // Extract the new version from Chart.yaml using awk
