@@ -19,11 +19,17 @@ def dockerLogin()
 
 def CleanupDocker(String folder1, String folder2)
 {
-    
+    try
+    {
         echo 'Performing cleanup of docker images'
         sh "docker images | grep -w ${folder1} | grep -w [0-9]*\\.[0-9]* | awk '{print \$2}' | xargs -I {} docker rmi ${folder1}:{}"
         sh "docker images | grep -w ${folder2} | grep -w [0-9]\\.[0-9]* | awk '{print \$2}' | xargs -I {} docker rmi ${folder2}:{}"
-    
+    }
+    catch (Exception e)
+    {
+       
+        echo "Nothing to clean"
+    }
 }
 
 def BuildDocker(String folder ,String image)
